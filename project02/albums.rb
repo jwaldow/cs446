@@ -7,13 +7,20 @@ class AlbumApp
 		case request.path
 		when "/form" then render_form(request)
 		when "/list" then render_list(request)
+		when "/style.css" then render_css(request)
 		else render_404
 		end
 	end
 
+	def render_css(request)
+		response = Rack::Response.new
+		File.open("style.css", "rb"){ |form| response.write(form.read)}
+		response.finish
+	end
+
 	def render_form(request)
 		response = Rack::Response.new
-		File.open("form.html", "rb"){ |form| response.write(form.read)}
+		File.open("form.php", "rb"){ |form| response.write(form.read)}
 		response.finish
 	end
 
@@ -30,6 +37,7 @@ class AlbumApp
 		response.write("<html>
 			<head>
 			<title>Rolling Stone's Top 100 Albums of All Time</title>
+			<link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\">
 			</head>
 			<body>
 
@@ -51,7 +59,12 @@ class AlbumApp
 
 			#write out each rank, line and year of album
 			albums.each do |record|
-				response.write("<tr>
+				if selected == record["rank"].to_s
+					response.write("<tr class=\"selected\">")
+				else
+					response.write("<tr>")
+				end
+				response.write("
 									<td>#{record["rank"]}</td>
 									<td>#{record["name"]}</td>
 									<td>#{record["year"]}</td>
