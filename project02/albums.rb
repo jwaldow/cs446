@@ -19,15 +19,26 @@ class AlbumApp
 
 	def render_list(request)
 		response = Rack::Response.new
-		#File.open("form.html", "rb"){ |form| response.write(form.read)}
+		values = request.params
+		file = File.open("top_100_albums.txt")
+		albums = Array.new
+		sort= values["order"]
+		selected = values["rank"]
 		response.write("<html>
 			<head>
-			<title>Top 100 Albums of All Time</title>
+			<title>Rolling Stone's Top 100 Albums of All Time</title>
 			</head>
-			<body>
-			<p>This is a test</p>
-			</body>
-			</html>")
+			<body>")
+			file.each do |line|
+				response.write("<p>"+line+"</p>")
+			end
+
+
+
+
+
+
+		response.write("</body></html>")
 		response['Content-Type'] = 'text/html'
 		response.finish
 	end
