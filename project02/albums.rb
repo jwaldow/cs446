@@ -18,26 +18,43 @@ class AlbumApp
 	end
 
 	def render_list(request)
+		#sets up basic constant
 		response = Rack::Response.new
 		values = request.params
 		file = File.open("top_100_albums.txt")
-		albums = Array.new
 		sort= values["order"]
 		selected = values["rank"]
+		#function to create hash table of all albums
+		albums = createAlbumHash(file)
+		#write the beginning of the html file
 		response.write("<html>
 			<head>
 			<title>Rolling Stone's Top 100 Albums of All Time</title>
 			</head>
-			<body>")
-			file.each do |line|
-				response.write("<p>"+line+"</p>")
+			<body>
+
+			<h1> Rolling Stone's Top 100 Albums of All Time </h1>")
+
+			#TODO: figure out how it is sorted and print it
+
+			#write beginning of table
+			response.write("<table id=albumTable>")
+
+			#write out each rank, line and year of album
+			albums.each do |record|
+				response.write("<tr>
+									<td>#{record["rank"]}</td>
+									<td>#{record["name"]}</td>
+									<td>#{record["year"]}</td>
+								</tr>")
 			end
+			response.write("</table>")
 
 
 
 
 
-
+		#writes the end of the html file
 		response.write("</body></html>")
 		response['Content-Type'] = 'text/html'
 		response.finish
@@ -45,6 +62,21 @@ class AlbumApp
 
 	def render_404
 		[404, {"Content-Type" => "text/plain"}, ["Nothing here!"]]
+	end
+
+	def createAlbumHash (file)
+		rank = 1
+		albums = Array.new
+		file.each do |line|
+			album = Hash.new
+			album["rank"]=rank
+			album["name"]=line.split(",")[0]
+			album["year"]=line.split(",")[1].strip
+			albums << album
+			rank+=1
+		end
+		#yes I know the return is not needed but it makes me sleep better at night
+		return albums
 	end
 end
 
