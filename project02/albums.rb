@@ -18,7 +18,17 @@ class AlbumApp
 	end
 
 	def render_list(request)
-		response = Rack::Response.new(request.path)
+		response = Rack::Response.new
+		#File.open("form.html", "rb"){ |form| response.write(form.read)}
+		response.write("<html>
+			<head>
+			<title>Top 100 Albums of All Time</title>
+			</head>
+			<body>
+			<p>This is a test</p>
+			</body>
+			</html>")
+		response['Content-Type'] = 'text/html'
 		response.finish
 	end
 
@@ -27,10 +37,5 @@ class AlbumApp
 	end
 end
 
-# class HelloWorld
-#   def call(env)
-#     [200, {"Content-Type" => "text/plain"}, ["Hello from Rack!"]]
-#   end
-# end
 
-Rack::Handler::WEBrick.run HelloWorld.new, :Port => 8080
+Rack::Handler::WEBrick.run AlbumApp.new, :Port => 8080
