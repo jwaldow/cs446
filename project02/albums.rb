@@ -36,6 +36,15 @@ class AlbumApp
 			<h1> Rolling Stone's Top 100 Albums of All Time </h1>")
 
 			#TODO: figure out how it is sorted and print it
+			case sort
+			when "name" then albums.sort_by! {|album| album["name"]}
+			when "year" then albums.sort_by! {|album| album["name"]}
+			else
+				#do nothing because it is sorting by rank and that is default
+			end
+
+			#write what it is being sorted by
+			response.write("<h3>Sorted by "+sort+"</h3>")
 
 			#write beginning of table
 			response.write("<table id=albumTable>")
@@ -49,11 +58,6 @@ class AlbumApp
 								</tr>")
 			end
 			response.write("</table>")
-
-
-
-
-
 		#writes the end of the html file
 		response.write("</body></html>")
 		response['Content-Type'] = 'text/html'
