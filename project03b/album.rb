@@ -1,11 +1,8 @@
 class Album
+	include DataMapper::Resource
 
-  attr_accessor :rank, :title, :year
-
-  def initialize(rank, title, year)
-    @rank = rank
-    @title = title
-    @year = year
-  end
-
+	property :id, Serial
+	property :rank, Integer
+	property :title, String
+	property :year, Integer
 end
