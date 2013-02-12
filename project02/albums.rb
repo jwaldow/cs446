@@ -20,7 +20,7 @@ class AlbumApp
 
 	def render_form(request)
 		response = Rack::Response.new
-		File.open("form.php", "rb"){ |form| response.write(form.read)}
+		File.open("form.html.erb", "rb"){ |form| response.write(form.read)}
 		response.finish
 	end
 
