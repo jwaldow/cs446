@@ -14,7 +14,7 @@ get "/form" do
 	erb :form
 end
 
-get "/list" do
+post "/list" do
 	@order = params[:order]
 	@highlight = params[:rank]
 	@albums = Album.all(:order => params[:order].intern.asc)

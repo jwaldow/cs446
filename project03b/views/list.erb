@@ -1,0 +1,15 @@
+<p>Sorted by <%=@order%></p>
+<table>
+<tr>
+	<th>Rank</th>
+	<th>Title</th>
+	<th>Year</th>
+</tr>
+<% @albums.each do |album| %>
+	<tr id="album<%=album.rank%>">
+		<td><%=album.rank%></td>
+		<td><%=album.title%></td>
+		<td><%=album.year%></td>
+	</tr>
+<% end %>
+</table>
