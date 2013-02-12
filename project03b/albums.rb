@@ -9,3 +9,14 @@ set :port, 8080
 get "/" do
 	"Sinartra is working"
 end
+
+get "/form" do
+	erb :form
+end
+
+get "/list" do
+	@order = params[:order]
+	@highlight = params[:rank]
+	@albums = Album.all(:order => params[:order].intern.asc)
+	erb :list
+end
