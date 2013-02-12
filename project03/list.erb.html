@@ -2,19 +2,20 @@
 <head>
   <title>Top 100 Albums of All Time</title>
   <style>
-  tr.highlighted { background-color: #fffcb7; }
+  #album<%=rank_to_highlight%> { background-color: #fffcb7; }
   </style>
 </head>
 <body>
 <h1>Rolling Stone's Top 100 Albums of All Time</h1>
-<p>Sorted by <%=rank_to_highlight%></p>
+<p>Sorted by <%=sort_order%></p>
+<table>
 <tr>
 	<th>Rank</th>
 	<th>Title</th>
 	<th>Year</th>
-</th>
+</tr>
 <% for album in sorted_list %>
-	<tr>
+	<tr id="album<%=album.rank%>">
 		<td><%=album.rank%></td>
 		<td><%=album.title%></td>
 		<td><%=album.year%></td>

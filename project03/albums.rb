@@ -37,10 +37,18 @@ class AlbumApp
     db = SQLite3::Database.new( "albums.sqlite3.db" )
     db.results_as_hash = true
     sorted_list = Array.new()
-	sorted_list = case sort_order 
-	when 'title' then db.execute("SELECT * FROM albums ORDER BY title") { |record| Album.new(record['rank'], record['title'], record['year'])}
-	when 'rank' then db.execute("SELECT * FROM albums ORDER BY rank") { |record| Album.new(record['rank'], record['title'], record['year'])}
-	when 'year' then db.execute("SELECT * FROM albums ORDER BY year") { |record| Album.new(record['rank'], record['title'], record['year'])}
+
+
+	case sort_order 
+	when 'title' 
+    result_set = db.execute("SELECT * FROM albums ORDER BY title") 
+    sorted_list = result_set.map { |record| Album.new(record['rank'], record['title'], record['year'])}
+	when 'rank'
+    result_set = db.execute("SELECT * FROM albums ORDER BY rank") 
+    sorted_list = result_set.map { |record| Album.new(record['rank'], record['title'], record['year'])}
+  else
+    result_set = db.execute("SELECT * FROM albums ORDER BY year") 
+    sorted_list = result_set.map { |record| Album.new(record['rank'], record['title'], record['year'])}
 	end
    
    code = ERB.new(code).result(binding)
